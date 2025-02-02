@@ -1,39 +1,48 @@
 <template>
+  <!-- Общий родитель -->
   <div class="parent">
+    <!-- Табы списка и карты в мобилке -->
     <div class="mobile-tabs">
       <span @click="setActiveTab('map')" :class="{ 'active-tab': activeTab === 'map' }">Карта</span>
       <span @click="setActiveTab('list')" :class="{ 'active-tab': activeTab === 'list' }">Список</span>
     </div>
-
+    <!-- Список магазинов и карта в десктоп -->
     <template v-if="stores.length > 0">
-      <StoreList v-if="isWideScreen || activeTab === 'list'" class="store-list" :stores="stores"
+      <StoreList v-show="isWideScreen || activeTab === 'list'" class="store-list" :stores="stores"
         :selected-store-id="selectedStoreId !== undefined ? selectedStoreId : null" @selectStore="handleStoreSelect"
         :selected-store="selectedStore" />
-      <Map v-if="activeTab === 'map'" :stores="stores" :selected-store-id="selectedStoreId"
+      <Map v-show="activeTab === 'map'" :stores="stores" :selected-store-id="selectedStoreId"
         :selected-store="selectedStore" :center="CENTER" :zoom="ZOOM" @selectStore="handleStoreSelect" />
     </template>
+    <!-- Когда данные грузяться -->
     <div v-else>Загрузка данных...</div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import StoreList from "./components/StoreList.vue";
 import Map from "./components/Map.vue";
 
+// Изначальный пусстой массив для данных
 const stores = ref([]);
+// id ыбранного магазина
 const selectedStoreId = ref(null);
+// определение активного таба
 const activeTab = ref('map');
+// вычисляемое свойство для динамического вычисления id магазина
 const selectedStore = computed(() => {
   return stores.value.find(store => store.id === selectedStoreId.value);
 });
+// центр карты
 const CENTER = { lat: 45.037914, lng: 39.016233 };
+// стандартный зум карты
 const ZOOM = 12;
-
-// Создаем реактивное свойство для ширины экрана
+// вычисляемое свойство что бы понимать что экран уменьшился/увеличился
 const isWideScreen = computed(() => window.innerWidth > 1000);
 
 onMounted(async () => {
+  // запрос данных
   try {
     const response = await fetch("https://cmstore.ru/rest-api/catalog/detail/41392/store-list?locationID=1168");
     if (!response.ok) {
@@ -44,28 +53,17 @@ onMounted(async () => {
   } catch (error) {
     console.error("Ошибка при загрузке данных:", error);
   }
-
-  // Добавляем обработчик события resize для обновления ширины экрана
-  window.addEventListener('resize', handleResize);
 });
-
-onUnmounted(() => {
-  window.removeEventListener('resize', handleResize);
-});
-
-function handleResize() {
-  isWideScreen.value = window.innerWidth > 1000;
-}
-
+// Функция для смены активных табов
 function setActiveTab(tab) {
   activeTab.value = tab;
 }
-
+// Функция обработчик emits из дочерних компонентов
 function handleStoreSelect(store) {
   if (store && store.id !== undefined) {
-    selectedStoreId.value = store.id; // Устанавливаем id выбранного магазина
+    selectedStoreId.value = store.id;
   }
-  setActiveTab('map'); // Переключаемся на карту
+  setActiveTab('map');
 }
 </script>
 

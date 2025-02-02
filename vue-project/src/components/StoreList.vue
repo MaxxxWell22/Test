@@ -1,4 +1,5 @@
 <template>
+  <!-- Блок с классом .test нужен для того, что бы сделать полосу прокрутки какв дизайне, иначе она всегда будет прилипать к нашему блоку со списком -->
   <div class="test">
     <div class="wrapper-list">
       <ul class="ul-list">
@@ -20,7 +21,7 @@ const props = defineProps({
   selectedStoreId: { type: [Number, null], required: true },
 });
 const emit = defineEmits(['selectStore']);
-
+// Emit для всплытия события родителю
 function selectStore(store) {
   emit('selectStore', store);
 }
