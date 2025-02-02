@@ -22,7 +22,7 @@ import StoreList from "./components/StoreList.vue";
 import Map from "./components/Map.vue";
 
 const stores = ref([]);
-const selectedStoreId = ref(null); 
+const selectedStoreId = ref(null);
 const activeTab = ref('map');
 const selectedStore = computed(() => {
   return stores.value.find(store => store.id === selectedStoreId.value);
@@ -70,6 +70,8 @@ function handleStoreSelect(store) {
 </script>
 
 <style lang="scss">
+@import './variables/variables.scss';
+
 .parent {
   display: flex;
   justify-content: center;
@@ -83,19 +85,17 @@ function handleStoreSelect(store) {
 
     span {
       font-weight: 600;
-      font-size: 14px;
+      font-size: $font-size-small;
       line-height: 20px;
-      color: #E1E1E3;
+      color: $color-light-gray;
       width: 100%;
       text-align: center;
-      border-bottom: 2px solid #E1E1E3;
-      /* Цвет неактивного таба */
+      border-bottom: 2px solid $color-light-gray;
       cursor: pointer;
 
       &.active-tab {
-        color: #0E0E0E;
+        color: $color-black;
         border-bottom: 2px solid black;
-        /* Цвет активного таба */
       }
     }
 

@@ -93,108 +93,79 @@ watch(() => props.selectedStoreId, async (newId) => {
 </script>
 
 <style lang="scss">
+@import '../variables/variables.scss';
+
 .map {
-  width: 996px;
-  height: 684px;
+  width: $map-width; // Используем переменную для ширины карты
+  height: $map-height; // Используем переменную для высоты карты
 
   @media (max-width: 1000px) {
-    width: 100%;
+    width: 100%; // Адаптивная ширина для мобильных устройств
   }
 
-  // @media(max-width: 1000px) {
-  //   width: 800px;
-  //   height: 720px;
-  // }
-
-  // @media(max-width: 850px) {
-  //   width: 660px;
-  //   height: 720px;
-  // }
-
-  // @media(max-width: 700px) {
-  //   width: 550px;
-  //   height: 720px;
-  // }
-
-  // @media(max-width: 600px) {
-  //   width: 460px;
-  //   height: 720px;
-  // }
-
-  // @media(max-width: 500px) {
-  //   width: 400px;
-  //   height: 720px;
-  // }
-
-  // @media(max-width: 450px) {
-  //   width: 351px;
-  //   height: 528px;
-  // }
-
-  // @media(max-width: 450px) {
-  //   width: 340px;
-  //   height: 528px;
-  // }
+  @media (max-width: 450px) {
+    height: 528px !important;
+  }
 }
 
 .ymaps-2-1-79-balloon {
-  width: 293px;
-  border-radius: 8px;
-  height: 173px;
-}
+  width: $balloon-width; // Используем переменную для ширины балуна
+  border-radius: $border-radius; // Используем переменную для радиуса границы
+  height: $balloon-height; // Используем переменную для высоты балуна
 
-.ymaps-2-1-79-balloon__layout {
-  width: 293px;
-  border-radius: 8px;
-  height: 173px;
+  .ymaps-2-1-79-balloon__layout {
+    width: $balloon-width; // Используем переменную для ширины
+    border-radius: $border-radius; // Используем переменную для радиуса границы
+    height: $balloon-height; // Используем переменную для высоты
 
-  .ymaps-2-1-79-balloon__content {
-    padding: 16px;
-    width: 293px;
-    box-sizing: border-box;
+    .ymaps-2-1-79-balloon__content {
+      padding: 16px;
+      width: $balloon-width; // Используем переменную для ширины
+      box-sizing: border-box;
+      display: flex;
+      flex-wrap: wrap;
+      height: $balloon-height; // Используем переменную для высоты
+    }
+  }
+
+  .ymaps-2-1-79-balloon__tail {
+    left: 45% !important; // Позиционирование хвоста балуна
+    bottom: 166px !important; // Позиционирование хвоста балуна
+  }
+
+  .custom-balloon {
     display: flex;
-    flex-wrap: wrap;
-    height: 173px;
-  }
-}
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-around;
+    height: 153px;
 
-.ymaps-2-1-79-balloon__tail {
-  left: 45% !important;
-  bottom: 166px !important;
-}
+    .address {
+      color: $color-black; // Используем переменную для цвета текста
+      font-weight: 600;
+      font-size: $font-size-small; // Используем переменную для размера шрифта
+      line-height: 16.94px;
+      letter-spacing: 0.3px;
+    }
 
-.custom-balloon {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: space-around;
-  height: 153px;
+    .schedule {
+      color: $color-dark-gray; // Используем переменную для цвета текста
+    }
 
-  .address {
-    color: #0E0E0E;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 16.94px;
-    letter-spacing: 0.3px;
-  }
+    .balloon-button {
+      width: 261px; // Можно также вынести в переменные, если используется в нескольких местах
+      height: 48px;
+      background-color: $color-button-bg; // Используем переменную для цвета фона кнопки
+      color: white;
+      border-radius: $border-radius; // Используем переменную для радиуса границы
+      font-size: $font-size-medium; // Используем переменную для размера шрифта
+      line-height: 20px;
+      border: none;
 
-  .schedule {
-    color: #7D7D7D;
-  }
-
-  .balloon-button {
-    width: 261px;
-    height: 48px;
-    background-color: black;
-    color: white;
-    border-radius: 8px;
-    font-size: 16px;
-    line-height: 20px;
-    border: none;
-  }
-
-  .balloon-button:hover {
-    cursor: pointer;
+      &:hover {
+        cursor: pointer; // Курсор при наведении
+      }
+    }
   }
 }
 </style>
