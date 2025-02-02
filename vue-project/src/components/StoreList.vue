@@ -129,6 +129,7 @@ function selectStore(store) {
 
   @media (max-width: 1000px) {
     width: 100%;
+    height: 760px;
     border: none;
     border-radius: 0px;
     box-sizing: border-box;

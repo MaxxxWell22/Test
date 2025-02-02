@@ -97,40 +97,44 @@ watch(() => props.selectedStoreId, async (newId) => {
   width: 996px;
   height: 684px;
 
-  @media(max-width: 1000px) {
-    width: 800px;
-    height: 720px;
+  @media (max-width: 1000px) {
+    width: 100%;
   }
 
-  @media(max-width: 850px) {
-    width: 660px;
-    height: 720px;
-  }
+  // @media(max-width: 1000px) {
+  //   width: 800px;
+  //   height: 720px;
+  // }
 
-  @media(max-width: 700px) {
-    width: 550px;
-    height: 720px;
-  }
+  // @media(max-width: 850px) {
+  //   width: 660px;
+  //   height: 720px;
+  // }
 
-  @media(max-width: 600px) {
-    width: 460px;
-    height: 720px;
-  }
+  // @media(max-width: 700px) {
+  //   width: 550px;
+  //   height: 720px;
+  // }
 
-  @media(max-width: 500px) {
-    width: 400px;
-    height: 720px;
-  }
+  // @media(max-width: 600px) {
+  //   width: 460px;
+  //   height: 720px;
+  // }
 
-  @media(max-width: 450px) {
-    width: 351px;
-    height: 528px;
-  }
+  // @media(max-width: 500px) {
+  //   width: 400px;
+  //   height: 720px;
+  // }
 
-  @media(max-width: 450px) {
-    width: 340px;
-    height: 528px;
-  }
+  // @media(max-width: 450px) {
+  //   width: 351px;
+  //   height: 528px;
+  // }
+
+  // @media(max-width: 450px) {
+  //   width: 340px;
+  //   height: 528px;
+  // }
 }
 
 .ymaps-2-1-79-balloon {

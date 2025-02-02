@@ -103,7 +103,7 @@ function handleStoreSelect(store) {
   }
 
   .map {
-    padding: 20px;
+    padding-top: 20px;
   }
 
   @media (max-width: 1000px) {
