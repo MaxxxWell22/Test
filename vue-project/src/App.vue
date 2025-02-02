@@ -1,32 +1,33 @@
 <template>
   <div class="parent">
     <div class="mobile-tabs">
-      <span @click="setActiveTab('map')" :class="{ active: activeTab === 'map' }">Карта</span>
-      <span @click="setActiveTab('list')" :class="{ active: activeTab === 'list' }">Список</span>
+      <span @click="setActiveTab('map')" :class="{ 'active-tab': activeTab === 'map' }">Карта</span>
+      <span @click="setActiveTab('list')" :class="{ 'active-tab': activeTab === 'list' }">Список</span>
     </div>
 
-    <!-- Условие для отображения StoreList -->
-    <StoreList v-if="isWideScreen || activeTab === 'list'" class="store-list" :stores="stores" :selected-store-id="selectedStoreId"
-      @selectStore="handleStoreSelect" :selectedStore="selectedStore" />
-
-    <Map v-if="activeTab === 'map' && stores.length > 0" :stores="stores" :selected-store-id="selectedStoreId"
-      :selectedStore="selectedStore" :center="center" :zoom="zoom" @selectStore="handleStoreSelect" />
-
-    <div v-if="stores.length === 0">Загрузка данных...</div>
+    <template v-if="stores.length > 0">
+      <StoreList v-if="isWideScreen || activeTab === 'list'" class="store-list" :stores="stores"
+        :selected-store-id="selectedStoreId" @selectStore="handleStoreSelect" :selected-store="selectedStore" />
+      <Map v-if="activeTab === 'map'" :stores="stores" :selected-store-id="selectedStoreId"
+        :selected-store="selectedStore" :center="CENTER" :zoom="ZOOM" @selectStore="handleStoreSelect" />
+    </template>
+    <div v-else>Загрузка данных...</div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 import StoreList from "./components/StoreList.vue";
 import Map from "./components/Map.vue";
 
 const stores = ref([]);
 const selectedStoreId = ref(null);
-const center = ref({ lat: 45.037914, lng: 39.016233 });
-const zoom = ref(12);
 const activeTab = ref('map');
-const selectedStore = ref(null);
+const selectedStore = computed(() => {
+  return stores.value.find(store => store.id === selectedStoreId.value);
+});
+const CENTER = { lat: 45.037914, lng: 39.016233 };
+const ZOOM = 12;
 
 // Создаем реактивное свойство для ширины экрана
 const isWideScreen = computed(() => window.innerWidth > 1000);
@@ -44,10 +45,16 @@ onMounted(async () => {
   }
 
   // Добавляем обработчик события resize для обновления ширины экрана
-  window.addEventListener('resize', () => {
-    isWideScreen.value = window.innerWidth > 1000;
-  });
+  window.addEventListener('resize', handleResize);
 });
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
+});
+
+function handleResize() {
+  isWideScreen.value = window.innerWidth > 1000;
+}
 
 function setActiveTab(tab) {
   activeTab.value = tab;
@@ -55,9 +62,8 @@ function setActiveTab(tab) {
 
 // Метод для обработки выбора магазина
 function handleStoreSelect(store) {
-  selectedStore.value = store; // Устанавливаем выбранный магазин
   selectedStoreId.value = store.id; // Устанавливаем id выбранного магазина
-  activeTab.value = 'map'; // Переключаемся на карту
+  setActiveTab('map'); // Переключаемся на карту
 }
 </script>
 
@@ -84,7 +90,7 @@ function handleStoreSelect(store) {
       /* Цвет неактивного таба */
       cursor: pointer;
 
-      &.active {
+      &.active-tab {
         color: #0E0E0E;
         border-bottom: 2px solid black;
         /* Цвет активного таба */
