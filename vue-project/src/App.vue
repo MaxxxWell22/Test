@@ -7,7 +7,8 @@
 
     <template v-if="stores.length > 0">
       <StoreList v-if="isWideScreen || activeTab === 'list'" class="store-list" :stores="stores"
-        :selected-store-id="selectedStoreId" @selectStore="handleStoreSelect" :selected-store="selectedStore" />
+        :selected-store-id="selectedStoreId !== undefined ? selectedStoreId : null" @selectStore="handleStoreSelect"
+        :selected-store="selectedStore" />
       <Map v-if="activeTab === 'map'" :stores="stores" :selected-store-id="selectedStoreId"
         :selected-store="selectedStore" :center="CENTER" :zoom="ZOOM" @selectStore="handleStoreSelect" />
     </template>
@@ -21,7 +22,7 @@ import StoreList from "./components/StoreList.vue";
 import Map from "./components/Map.vue";
 
 const stores = ref([]);
-const selectedStoreId = ref(null);
+const selectedStoreId = ref(0);
 const activeTab = ref('map');
 const selectedStore = computed(() => {
   return stores.value.find(store => store.id === selectedStoreId.value);

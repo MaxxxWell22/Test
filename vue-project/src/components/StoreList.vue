@@ -16,16 +16,9 @@
 import { defineProps, defineEmits } from "vue";
 
 const props = defineProps({
-  stores: {
-    type: Array,
-    required: true
-  },
-  selectedStoreId: {
-    type: Number,
-    required: true
-  }
+  stores: { type: Array, required: true },
+  selectedStoreId: { type: [Number, null], required: true }, 
 });
-
 const emit = defineEmits(['selectStore']);
 
 function selectStore(store) {
