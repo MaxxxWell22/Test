@@ -22,7 +22,7 @@ import StoreList from "./components/StoreList.vue";
 import Map from "./components/Map.vue";
 
 const stores = ref([]);
-const selectedStoreId = ref(0);
+const selectedStoreId = ref(null); 
 const activeTab = ref('map');
 const selectedStore = computed(() => {
   return stores.value.find(store => store.id === selectedStoreId.value);
@@ -61,9 +61,10 @@ function setActiveTab(tab) {
   activeTab.value = tab;
 }
 
-// Метод для обработки выбора магазина
 function handleStoreSelect(store) {
-  selectedStoreId.value = store.id; // Устанавливаем id выбранного магазина
+  if (store && store.id !== undefined) {
+    selectedStoreId.value = store.id; // Устанавливаем id выбранного магазина
+  }
   setActiveTab('map'); // Переключаемся на карту
 }
 </script>

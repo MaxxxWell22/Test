@@ -59,7 +59,7 @@ function createMarker(store) {
 
 function handleMarkerClick(store) {
   map.setCenter([parseFloat(store.lat), parseFloat(store.lng)], 17);
-  emit('selectStore', store.id);
+  emit('selectStore', store);
 }
 
 onMounted(() => {
